@@ -1,0 +1,37 @@
+# 智能硬件接入配置示例
+# 复制本文件为 devices.yaml 并填入你自己的设备，启动即生效。
+# 支持的协议：mqtt / http（在 registry.ADAPTER_FACTORY 登记即可扩展）
+
+adapters:
+  # ---- MQTT：ESP32 / 涂鸦 / Home Assistant / 工业网关 ----
+  - name: home_mqtt
+    protocol: mqtt
+    broker:
+      host: localhost          # 改成你的 MQTT broker 地址
+      port: 1883
+      username: ""             # 无则留空
+      password: ""
+      client_id: shb-home
+    devices:
+      - id: living_room_sensor
+        state_topic: home/livingroom/sensor      # 设备上报状态的主题
+        command_topic: home/livingroom/actuator/set  # 下发指令的主题
+        qos: 1
+      - id: bedroom_ac
+        state_topic: home/bedroom/ac/state
+        command_topic: home/bedroom/ac/set
+        qos: 1
+
+  # ---- HTTP / REST：智能插座 / 摄像头 / 私有云 ----
+  - name: web_devices
+    protocol: http
+    timeout: 5
+    devices:
+      - id: office_plug
+        base_url: http://192.168.1.50
+        state_path: /api/v1/state        # GET 取状态
+        command_path: /api/v1/control    # POST 下发
+      - id: gate_camera
+        base_url: http://192.168.1.60
+        state_path: /snapshot
+        command_path: /api/ptz
