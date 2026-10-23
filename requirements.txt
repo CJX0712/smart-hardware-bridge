@@ -1,0 +1,6 @@
+# 智能硬件接入 WorkBuddy —— 依赖
+# 安装：pip install -r requirements.txt
+mcp>=1.23.0
+paho-mqtt>=2.0.0
+requests>=2.32.4
+pyyaml>=6.0.1
